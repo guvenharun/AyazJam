@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 288263262}
   - component: {fileID: 288263261}
   - component: {fileID: 288263260}
+  - component: {fileID: 288263265}
   m_Layer: 0
   m_Name: player (1)
   m_TagString: Untagged
@@ -347,7 +348,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -362,12 +363,26 @@ Transform:
   m_GameObject: {fileID: 288263259}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.017451027, z: -0, w: 0.99984777}
-  m_LocalPosition: {x: 399.8, y: 7.98, z: 14.99}
+  m_LocalPosition: {x: 380.65, y: 3.9, z: 6.39}
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -2, z: 0}
+--- !u!114 &288263265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288263259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a3fd1cb924909b4690512c71dfc2c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 645623215}
+  rotationSpeed: 5
 --- !u!1001 &441419607
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -436,7 +451,6 @@ GameObject:
   - component: {fileID: 645623215}
   - component: {fileID: 645623214}
   - component: {fileID: 645623213}
-  - component: {fileID: 645623212}
   m_Layer: 0
   m_Name: Main Camera (1)
   m_TagString: MainCamera
@@ -444,40 +458,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &645623212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 645623211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!81 &645623213
 AudioListener:
   m_ObjectHideFlags: 0
