@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable
   - Usable
+  - window
   layers:
   - Default
   - TransparentFX

@@ -158,10 +158,12 @@ MonoBehaviour:
   dialogueUI: {fileID: 1245871400}
   dialogueText: {fileID: 145123873}
   dialogueImage: {fileID: 415051132}
-  dialogueSprites: []
+  dialogueSprites:
+  - {fileID: 0}
+  - {fileID: 0}
   dialogueLines:
-  - "Ger\xE7ekten, i\u015Fim g\xFCc\xFCm yokmu\u015F gibi bir de seninle vakit kaybedece\u011Fim
-    ha?"
+  - ...
+  - ......
 --- !u!65 &61900257
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -718,12 +720,11 @@ MonoBehaviour:
   dialogueUI: {fileID: 1245871400}
   dialogueText: {fileID: 145123873}
   dialogueImage: {fileID: 415051132}
-  dialogueSprites: []
+  dialogueSprites:
+  - {fileID: 0}
   dialogueLines:
-  - "Aa, selam m\u0131? \xC7ok \xF6nemliydi zaten. Ba\u015Fka bir \u015Fey bulamad\u0131n
-    m\u0131?"
-  - "Ger\xE7ekten, i\u015Fim g\xFCc\xFCm yokmu\u015F gibi bir de seninle vakit kaybedece\u011Fim
-    ha?"
+  - "Ke\u015Fke hi\xE7 gelmeseydin; varl\u0131\u011F\u0131n sorun, d\xFCzeltmek i\xE7in
+    u\u011Fra\u015Fman ise trajikomik."
 --- !u!65 &652772992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1914,8 +1915,7 @@ MonoBehaviour:
   dialogueImage: {fileID: 1363952316}
   dialogueSprites: []
   dialogueLines:
-  - "\u015Eimdi de selam m\u0131? Bari bir faydan dokunsun, kahve yap da \xF6yle
-    gel!"
+  - "Benim konu\u015Fmaya de\u011Fil, senden kurtulmaya ihtiyac\u0131m var."
 --- !u!65 &1802055960
 BoxCollider:
   m_ObjectHideFlags: 0
