@@ -23,7 +23,7 @@ public class EnemyAI : MonoBehaviour
     private float currentRotationAngle = 0f;
     private bool rotatingForward = true;
 
-    public float maxRotationAngle = 90f;
+    public float maxRotationAngle = -90f;
 
     void Start()
     {
