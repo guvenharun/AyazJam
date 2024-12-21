@@ -121,7 +121,7 @@ public class Interaction : MonoBehaviour
             {
                 interactionImage.sprite = iconComponent.icon; // Yeni ikon
                 interactionImage.enabled = true; // Resmi göster
-                Destroy(currentInteractableObject);
+                currentInteractableObject.SetActive(false);
             }
         }
 
