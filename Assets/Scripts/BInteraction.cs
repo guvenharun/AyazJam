@@ -94,7 +94,7 @@ public class Interaction : MonoBehaviour
 
                 if (interactionMessage != null)
                 {
-                    interactionMessage.text = "Etkileşim gerçekleşti!";
+                    interactionMessage.text = (currentInteractableObject.name)+" Alındı!";
                     interactionMessage.gameObject.SetActive(true);
                     StartCoroutine(HideMessageAfterDelay(2f));
                 }
@@ -111,7 +111,7 @@ public class Interaction : MonoBehaviour
 
                 if (interactionMessage != null)
                 {
-                    interactionMessage.text = "Kullanıldı!";
+                    interactionMessage.text = (currentInteractableObject.name) +" Kullanıldı!";
                     interactionMessage.gameObject.SetActive(true);
                     StartCoroutine(HideMessageAfterDelay(2f));
                 }
