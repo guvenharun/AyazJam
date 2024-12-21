@@ -8,6 +8,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public GameObject dialogueUI; // Diyalog penceresi UI
     public TMP_Text dialogueText; // Diyalog içeriği için TMP_Text
+    //asdasd
 
     private bool isPlayerNear = false; // Oyuncunun NPC'ye yakın olup olmadığını kontrol etmek için bayrak
     private bool dialogueActive = false; // Diyalog aktif mi
