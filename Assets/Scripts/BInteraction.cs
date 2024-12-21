@@ -11,6 +11,10 @@ public class Interaction : MonoBehaviour
     public Image interactionImage; // Sağ üstteki UI Image
     public TMP_Text interactionMessage; // Alt ortadaki UI Text
     private Sprite defaultImage; // Varsayılan boş görüntü
+    private bool conductivy = false;
+    private bool takenCable = false;
+    string usableName;
+    string interactableName;
 
     private GameObject currentInteractableObject; // Geçerli etkileşimde olunan obje
 
@@ -78,46 +82,88 @@ public class Interaction : MonoBehaviour
     {
         if (currentInteractableObject != null)
         {
-            // Eğer Interactable nesnesiyse
             if (currentInteractableObject.CompareTag("Interactable"))
             {
-                if (interactionImage != null)
-                {
-                    InteractionIcon iconComponent = currentInteractableObject.GetComponent<InteractionIcon>();
-                    if (iconComponent != null && iconComponent.icon != null)
-                    {
-                        interactionImage.sprite = iconComponent.icon; // Yeni ikon
-                        interactionImage.enabled = true; // Resmi göster
-                        Destroy(currentInteractableObject);
-                    }
-                }
-
-                if (interactionMessage != null)
-                {
-                    interactionMessage.text = (currentInteractableObject.name)+" Alındı!";
-                    interactionMessage.gameObject.SetActive(true);
-                    StartCoroutine(HideMessageAfterDelay(2f));
-                }
+                HandleInteractable();
             }
-
-            // Eğer Usable nesnesiyse
-            if (currentInteractableObject.CompareTag("Usable"))
+            else if (currentInteractableObject.CompareTag("Usable"))
             {
-                if (interactionImage != null)
-                {
-                    interactionImage.enabled = false; // Resmi gizle
-                    interactionImage.sprite = defaultImage; // Varsayılan görüntüye dön
-                }
-
-                if (interactionMessage != null)
-                {
-                    interactionMessage.text = (currentInteractableObject.name) +" Kullanıldı!";
-                    interactionMessage.gameObject.SetActive(true);
-                    StartCoroutine(HideMessageAfterDelay(2f));
-                }
+                HandleUsable();
             }
 
             currentInteractableObject = null; // Etkileşimi sonlandır
+        }
+    }
+
+    private void HandleInteractable()
+    {
+        if (interactionImage != null)
+        {
+            InteractionIcon iconComponent = currentInteractableObject.GetComponent<InteractionIcon>();
+
+            interactableName = currentInteractableObject.name;
+
+            switch(interactableName){
+
+                case "knife": 
+                    conductivy = true;
+                    break;
+
+                case "poison":
+                    break;
+
+                case  "cable":
+                    takenCable = true;
+                    break;  
+
+            }
+            if (iconComponent != null && iconComponent.icon != null)
+            {
+                interactionImage.sprite = iconComponent.icon; // Yeni ikon
+                interactionImage.enabled = true; // Resmi göster
+                Destroy(currentInteractableObject);
+            }
+        }
+
+        if (interactionMessage != null)
+        {
+            interactionMessage.text = currentInteractableObject.name + " Alındı!";
+            interactionMessage.gameObject.SetActive(true);
+            StartCoroutine(HideMessageAfterDelay(2f));
+        }
+    }
+
+    private void HandleUsable()
+    {
+        usableName = currentInteractableObject.name;
+
+        switch(usableName){
+            case "priz":
+                if(conductivy){
+                    UseUsable();
+                    conductivy = false;
+                    }
+                break;
+            case "yazici":
+                if(takenCable){
+                    UseUsable();
+                    takenCable = false;
+                    }
+                break;
+        }
+    }
+
+    private void UseUsable(){
+        if (interactionImage != null)
+        {
+            interactionImage.enabled = false; // Resmi gizle
+            interactionImage.sprite = defaultImage; // Varsayılan görüntüe dön
+        }
+        if (interactionMessage != null)
+        {
+            interactionMessage.text =  interactableName + " Kullanıldı!";
+            interactionMessage.gameObject.SetActive(true);
+            StartCoroutine(HideMessageAfterDelay(2f));
         }
     }
 
