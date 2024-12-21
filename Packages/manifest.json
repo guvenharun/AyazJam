@@ -1,10 +1,7 @@
 {
   "dependencies": {
     "com.unity.2d.sprite": "1.0.0",
-<<<<<<< HEAD
-=======
     "com.unity.cinemachine": "2.9.7",
->>>>>>> 85c733c4371580ab8879328497058eeb2b41fb2e
     "com.unity.collab-proxy": "2.6.0",
     "com.unity.feature.development": "1.0.1",
     "com.unity.textmeshpro": "3.0.6",

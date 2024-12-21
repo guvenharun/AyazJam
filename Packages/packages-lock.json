@@ -6,8 +6,6 @@
       "source": "builtin",
       "dependencies": {}
     },
-<<<<<<< HEAD
-=======
     "com.unity.cinemachine": {
       "version": "2.9.7",
       "depth": 0,
@@ -17,7 +15,6 @@
       },
       "url": "https://packages.unity.com"
     },
->>>>>>> 85c733c4371580ab8879328497058eeb2b41fb2e
     "com.unity.collab-proxy": {
       "version": "2.6.0",
       "depth": 0,
