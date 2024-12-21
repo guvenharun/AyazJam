@@ -7,6 +7,7 @@ public class Gmovement : MonoBehaviour
     [SerializeField] private float movementSpeed;
     [SerializeField] private float slowSpeed;
     [SerializeField] private float acceleration;
+    private float enemyRaycast;
     private float currentSpeed;
 
     public float moveX;
@@ -14,10 +15,13 @@ public class Gmovement : MonoBehaviour
 
     public Vector3 movement;
 
+    public EnemyAI enemyAI;
+
     Rigidbody rb;
 
     void Start()
     {
+        enemyRaycast = enemyAI.detectionRange;
         rb = GetComponent<Rigidbody>();
     }
     void Update()
@@ -27,8 +31,26 @@ public class Gmovement : MonoBehaviour
 
         movement = new Vector3(moveX, 0f, moveZ);
 
-        currentSpeed = Input.GetKey(KeyCode.LeftControl) ? slowSpeed : movementSpeed;
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            currentSpeed = slowSpeed;
+
+            if (enemyAI.detectionRange == enemyRaycast)
+            {
+                enemyAI.detectionRange = enemyRaycast / 1.6f;
+            }
+        }
+        else
+        {
+            currentSpeed = movementSpeed;
+
+            if (enemyAI.detectionRange != enemyRaycast)
+            {
+                enemyAI.detectionRange = enemyRaycast;
+            }
+        }
     }
+
     private void FixedUpdate()
     {
 

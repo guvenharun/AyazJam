@@ -6,7 +6,8 @@ public class EnemyAI : MonoBehaviour
     {
         Idle,
         Chasing,
-        Returning
+        Returning,
+        BackToWhomb
     }
 
     public State currentState = State.Idle;
@@ -17,12 +18,15 @@ public class EnemyAI : MonoBehaviour
     public float detectionAngle = 90f;
     public float raycastInterval = 0.2f;
     private float nextRaycastTime = 0f;
+    private float timePassed = 0f;
 
     public int rayCount = 10;
 
     public Transform player;
 
     private Vector3 lastKnownPosition;
+    private Quaternion whombRotation;
+    private Vector3 whombaPosition;
     private bool hasLastKnownPosition = false;
 
     private Rigidbody rb;
@@ -31,6 +35,8 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        whombaPosition = transform.position;
+        whombRotation = transform.rotation; 
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -57,7 +63,21 @@ public class EnemyAI : MonoBehaviour
             case State.Returning:
                 PerformReturning();
                 break;
+            case State.BackToWhomb:
+                PerformBack();
+                break;
         }
+    }
+    private void PerformBack()
+    {
+        MoveTowards(whombaPosition);
+        if (Vector3.Distance(transform.position , whombaPosition) < 2.5f)
+        {
+            transform.rotation = whombRotation;
+            StopMovement();
+            currentState = State.Idle;
+        }
+
     }
 
     private void PerformIdle()
@@ -98,14 +118,22 @@ public class EnemyAI : MonoBehaviour
         {
             MoveTowards(lastKnownPosition);
 
-     
-            if (Vector3.Distance(transform.position, lastKnownPosition) < 0.5f)
+
+            if (Vector3.Distance(transform.position, lastKnownPosition) < 2.5f)
             {
-                hasLastKnownPosition = false;
-                currentState = State.Idle; 
+                
                 StopMovement();
+                timePassed += Time.deltaTime;
+
+                if(timePassed >= 3.25f)
+                {
+                    timePassed = 0f;
+                    hasLastKnownPosition = false;
+                    currentState = State.BackToWhomb;
+                }
             }
         }
+
     }
 
     private void PerformRaycast()
@@ -151,7 +179,6 @@ public class EnemyAI : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
-
     public void StopMovement()
     {
         if (rb != null)
@@ -159,6 +186,9 @@ public class EnemyAI : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
     }
+
+
+
 
     private void OnTriggerEnter(Collider other)
     {
