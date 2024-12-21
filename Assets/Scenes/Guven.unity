@@ -224,7 +224,7 @@ Transform:
   m_GameObject: {fileID: 19160476}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.87560195, z: -0, w: 0.48303336}
-  m_LocalPosition: {x: 387.89, y: 1, z: 0.73}
+  m_LocalPosition: {x: 386.19, y: 0, z: -0.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -242,15 +242,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9776fa424ba9ea941a25a2038c91ba25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   moveSpeed: 3
   rotationSpeed: 10
   detectionRange: 15
   detectionAngle: 90
   raycastInterval: 0.2
   rayCount: 10
-  isPlayerInZone: 0
   player: {fileID: 1462665645}
-  maxRotationAngle: 90
 --- !u!54 &19160482
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -276,7 +275,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 36
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!1001 &144811722
 PrefabInstance:
@@ -664,7 +663,7 @@ Transform:
   m_GameObject: {fileID: 1462665640}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.017451027, z: -0, w: 0.99984777}
-  m_LocalPosition: {x: 384.29, y: 2.03, z: 14.99}
+  m_LocalPosition: {x: 386.76, y: 0, z: 18.81}
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []

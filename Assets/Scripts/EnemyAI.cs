@@ -2,6 +2,15 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    public enum State
+    {
+        Idle,
+        Chasing,
+        Returning
+    }
+
+    public State currentState = State.Idle;
+
     public float moveSpeed = 3f;
     public float rotationSpeed = 10f;
     public float detectionRange = 15f;
@@ -11,8 +20,6 @@ public class EnemyAI : MonoBehaviour
 
     public int rayCount = 10;
 
-    public bool isPlayerInZone = false;
-
     public Transform player;
 
     private Vector3 lastKnownPosition;
@@ -20,15 +27,15 @@ public class EnemyAI : MonoBehaviour
 
     private Rigidbody rb;
 
-    private float currentRotationAngle = 0f;
-    private bool rotatingForward = true;
-
-    public float maxRotationAngle = -90f;
+    private float idleRotationAngle = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody component missing!");
+        }
     }
 
     void Update()
@@ -39,46 +46,66 @@ public class EnemyAI : MonoBehaviour
             PerformRaycast();
         }
 
-        if (!isPlayerInZone && hasLastKnownPosition)
+        switch (currentState)
         {
-            MoveTowards(lastKnownPosition);
-
-            if (Vector3.Distance(transform.position, lastKnownPosition) < 0.5f)
-            {
-                hasLastKnownPosition = false;
-                StopMovement();
-            }
-        }
-        else if (!isPlayerInZone)
-        {
-            PatrolRotation();
+            case State.Idle:
+                PerformIdle();
+                break;
+            case State.Chasing:
+                PerformChasing();
+                break;
+            case State.Returning:
+                PerformReturning();
+                break;
         }
     }
 
-    private void PatrolRotation()
+    private void PerformIdle()
     {
-      
-        if (rotatingForward)
+
+        idleRotationAngle = Mathf.PingPong(Time.time * rotationSpeed, 90f); 
+
+
+        transform.rotation = Quaternion.Euler(0, idleRotationAngle, 0);
+
+
+        if (!hasLastKnownPosition)
         {
-            currentRotationAngle += rotationSpeed * Time.deltaTime;
-            if (currentRotationAngle >= maxRotationAngle)
-            {
-                currentRotationAngle = maxRotationAngle;
-                rotatingForward = false;
-            }
-        }
-        else
-        {
-            currentRotationAngle -= rotationSpeed * Time.deltaTime;
-            if (currentRotationAngle <= 0f)
-            {
-                currentRotationAngle = 0f;
-                rotatingForward = true;
-            }
+            return; 
         }
 
-        Quaternion targetRotation = Quaternion.Euler(0, currentRotationAngle, 0);
-        transform.rotation = targetRotation;
+
+        currentState = State.Chasing;
+    }
+
+    private void PerformChasing()
+    {
+        if (player != null)
+        {
+            MoveTowards(player.position);
+        }
+
+        if (!hasLastKnownPosition)
+        {
+            currentState = State.Idle;
+
+        }
+    }
+
+    private void PerformReturning()
+    {
+        if (hasLastKnownPosition)
+        {
+            MoveTowards(lastKnownPosition);
+
+     
+            if (Vector3.Distance(transform.position, lastKnownPosition) < 0.5f)
+            {
+                hasLastKnownPosition = false;
+                currentState = State.Idle; 
+                StopMovement();
+            }
+        }
     }
 
     private void PerformRaycast()
@@ -97,15 +124,15 @@ public class EnemyAI : MonoBehaviour
                     playerDetected = true;
                     lastKnownPosition = player.position;
                     hasLastKnownPosition = true;
-                    MoveTowards(player.position);
+                    currentState = State.Chasing;
                     break;
                 }
             }
         }
 
-        if (!playerDetected && isPlayerInZone)
+        if (!playerDetected && currentState == State.Chasing)
         {
-            isPlayerInZone = false; 
+            currentState = State.Returning;
         }
     }
 
@@ -116,10 +143,11 @@ public class EnemyAI : MonoBehaviour
         Vector3 direction = (targetPosition - transform.position).normalized;
         Vector3 velocity = direction * moveSpeed;
 
-        velocity.y = rb.velocity.y;
+        velocity.y = rb.velocity.y; 
 
         rb.velocity = velocity;
 
+        direction.y = 0; 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
@@ -136,8 +164,8 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInZone = true;
             player = other.transform;
+            currentState = State.Chasing;
         }
     }
 
@@ -145,13 +173,13 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInZone = false;
+            currentState = State.Returning;
         }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = isPlayerInZone ? Color.red : Color.blue;
+        Gizmos.color = currentState == State.Chasing ? Color.red : Color.blue;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
 
         for (int i = 0; i < rayCount; i++)
