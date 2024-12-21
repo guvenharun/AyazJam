@@ -7,7 +7,7 @@ public class GBasicMovement : MonoBehaviour
     [SerializeField] private float movementSpeed;
     [SerializeField] private float slowSpeed;
     [SerializeField] private float acceleration;
-    private float enemyRaycast;
+    
     private float currentSpeed;
 
     public float moveX;
@@ -15,13 +15,12 @@ public class GBasicMovement : MonoBehaviour
 
     public Vector3 movement;
 
-    public EnemyAI enemyAI;
 
     Rigidbody rb;
 
     void Start()
     {
-        enemyRaycast = enemyAI.detectionRange;
+
         rb = GetComponent<Rigidbody>();
     }
     void Update()
@@ -35,19 +34,12 @@ public class GBasicMovement : MonoBehaviour
         {
             currentSpeed = slowSpeed;
 
-            if (enemyAI.detectionRange == enemyRaycast)
-            {
-                enemyAI.detectionRange = enemyRaycast / 1.6f;
-            }
         }
         else
         {
             currentSpeed = movementSpeed;
 
-            if (enemyAI.detectionRange != enemyRaycast)
-            {
-                enemyAI.detectionRange = enemyRaycast;
-            }
+   
         }
     }
 
