@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Guven.unity
+    guid: 6ff502d44852cee439b93139f1fc2a9b
   m_configObjects: {}
