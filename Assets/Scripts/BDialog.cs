@@ -6,11 +6,14 @@ public class DialogueTrigger : MonoBehaviour
 {
     public GameObject dialogueUI; // UI Panel referansı
     public TMP_Text dialogueText; // Metin alanı referansı
+    
     public Image dialogueImage; // Fotoğraf alanı referansı
     public Sprite[] dialogueSprites; // Diyalog fotoğrafları
     public string[] dialogueLines; // Diyalog metinleri
     private int currentLineIndex = 0;
     private bool playerInRange = false; // Oyuncunun menzilde olup olmadığını kontrol etmek için
+
+    private bool isDisplaying = false; // Mesajları sırayla göstermek için
 
     void Start()
     {
@@ -39,6 +42,8 @@ public class DialogueTrigger : MonoBehaviour
             {
                 dialogueUI.SetActive(false); // Paneli gizle
             }
+            StopAllCoroutines(); // Mesaj gösterme işlemini durdur
+            isDisplaying = false;
         }
     }
 
@@ -54,9 +59,28 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
+    private System.Collections.IEnumerator DisplayDialogueLines()
+    {
+        isDisplaying = true;
+        while (currentLineIndex < dialogueLines.Length)
+        {
+            ShowDialogue();
+            yield return new WaitForSeconds(3f);
+            currentLineIndex++;
+        }
+
+        // Diyalog bittiğinde paneli gizle
+        yield return new WaitForSeconds(3f); // Diyalog bitiminde 3 saniye bekle
+        if (dialogueUI != null)
+        {
+            dialogueUI.SetActive(false);
+        }
+        isDisplaying = false;
+    }
+
     public void NextLine()
     {
-        if (currentLineIndex < dialogueLines.Length - 1)
+        if (!isDisplaying && currentLineIndex < dialogueLines.Length - 1)
         {
             currentLineIndex++;
             ShowDialogue();
@@ -77,11 +101,8 @@ public class DialogueTrigger : MonoBehaviour
             if (!dialogueUI.activeSelf)
             {
                 dialogueUI.SetActive(true); // Diyaloğu başlat
-                ShowDialogue();
-            }
-            else
-            {
-                NextLine();
+                currentLineIndex = 0; // Diyaloğu sıfırdan başlat
+                StartCoroutine(DisplayDialogueLines());
             }
         }
     }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable
   - Usable
+  - NPC
   layers:
   - Default
   - TransparentFX
